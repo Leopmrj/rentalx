@@ -2,7 +2,7 @@ services:
 
   database:
     image: postgres
-    container_name: database_ignite
+    container_name: database
     restart: always
     ports:
       - 5432:5432
