@@ -25,11 +25,21 @@ export async function ensureAuthenticated(
 			token,
 			"a7e071b3de48cec1dd24de6cbe6c7bf1"
 		) as IPayload;
+
 		const usersRepository = new UsersRepository();
-		const user = usersRepository.findById(user_id);
+
+		const user = await usersRepository.findById(user_id);
+
 		if (!user) {
 			throw new AppError("User does not exists!", 401);
 		}
+
+		// A propriedade user não existia nessa interface
+		// Foi adicionada no arquivo @types\express\index.d.ts
+		request.user = {
+			id: user_id,
+		};
+
 		next();
 	} catch (error) {
 		throw new AppError("Invalid token.", 401);
